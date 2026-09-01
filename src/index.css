@@ -1,0 +1,198 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== Theme CSS Variables ===== */
+
+:root {
+  /* Dark theme (default) */
+  --ink-950: 10 10 10;
+  --ink-900: 17 17 17;
+  --ink-800: 26 26 26;
+  --ink-700: 36 36 36;
+  --ink-600: 51 51 51;
+  --ink-500: 74 74 74;
+
+  --paper-50: 250 250 249;
+  --paper-100: 245 245 244;
+  --paper-200: 231 229 228;
+  --paper-300: 214 211 209;
+  --paper-400: 168 162 158;
+
+  --accent-300: 190 242 100;
+  --accent-400: 163 230 53;
+  --accent-500: 132 204 22;
+}
+
+.light {
+  --ink-950: 250 250 249;
+  --ink-900: 245 245 244;
+  --ink-800: 231 229 228;
+  --ink-700: 214 211 209;
+  --ink-600: 168 162 158;
+  --ink-500: 120 113 108;
+
+  --paper-50: 26 26 26;
+  --paper-100: 36 36 36;
+  --paper-200: 51 51 51;
+  --paper-300: 74 74 74;
+  --paper-400: 107 107 107;
+
+  --accent-300: 132 204 22;
+  --accent-400: 77 124 15;
+  --accent-500: 63 98 18;
+}
+
+/* ===== Theme transition — applied temporarily during toggle ===== */
+
+html.theme-transition-active *,
+html.theme-transition-active *::before,
+html.theme-transition-active *::after {
+  transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease,
+    fill 0.4s ease, stroke 0.4s ease !important;
+}
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: rgb(var(--ink-950));
+    color: rgb(var(--paper-100));
+    font-family: 'Inter', system-ui, sans-serif;
+    overflow-x: hidden;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  ::selection {
+    background-color: rgb(var(--accent-400));
+    color: rgb(var(--ink-950));
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgb(var(--ink-950));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--ink-600));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--ink-500));
+  }
+}
+
+@layer components {
+  .label {
+    @apply font-mono text-xs uppercase tracking-[0.25em] text-paper-400;
+  }
+
+  .label-accent {
+    @apply font-mono text-xs uppercase tracking-[0.25em] text-accent-400;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-blur {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translateY(30px);
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), filter 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal-blur.reveal-visible {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+
+  .reveal-scale {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal-scale.reveal-visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .link-underline {
+    position: relative;
+    display: inline-block;
+  }
+
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: currentColor;
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .link-underline:hover::after {
+    width: 100%;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .perspective {
+    perspective: 1000px;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after,
+  html.theme-transition-active *,
+  html.theme-transition-active *::before,
+  html.theme-transition-active *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal,
+  .reveal-blur,
+  .reveal-scale {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
